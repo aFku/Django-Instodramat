@@ -55,6 +55,11 @@ ROOT_URLCONF = 'Instodramat.urls'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+#This allows to storage static in shared folder and in app folders
+STATICFILES_FINDERS = (
+  'django.contrib.staticfiles.finders.FileSystemFinder',
+  'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
 TEMPLATES = [
     {

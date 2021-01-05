@@ -1,0 +1,25 @@
+.navbar-item-flex-center {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-background-grey{
+    background-color: #E4E5E6;
+}
+
+.navbar-title {
+    color: black;
+}
+
+.dropdown-toggle::after {
+    content: none;
+}
+
+.nav-link{
+    color: black;
+}
+
+.navbar-toggler-icon img{
+    width: 100%;
+    margin: auto;
+}

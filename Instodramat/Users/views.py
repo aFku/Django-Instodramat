@@ -25,6 +25,9 @@ class ProfileView(DetailView):
         context['photos'] = self.photos
         return context
 
+def test(request):
+    return render(request, 'test.html')
+
 
 
 

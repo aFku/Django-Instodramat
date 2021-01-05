@@ -1,0 +1,7 @@
+.profile-avatar{
+    border-radius: 50%;
+}
+
+#user-data {
+    justify-content: space-around;
+}
