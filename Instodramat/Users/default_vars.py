@@ -1,1 +1,1 @@
-DEFAULT_AVATAR = ''
+DEFAULT_AVATAR = '/static/resc/default-avatar.png'

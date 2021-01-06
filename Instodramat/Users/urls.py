@@ -3,5 +3,5 @@ from . import views
 
 #path('url', '<view name>', name=<''url name>)
 urlpatterns = [
-    path('', views.test, name='xd')
+    path('<int:pk>', views.ProfileView.as_view(), name='xd')
 ]

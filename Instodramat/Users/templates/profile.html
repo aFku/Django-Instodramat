@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    test title
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-4 col-md-12" id="avatar-container">
+            <img src="{{ profile.get_avatar }}" class="img-fluid profile-avatar">
+        </div>
+        <div id="user-data" class="col-lg-8 col-md-12 d-flex flex-column">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    {{ profile.get_name_to_display}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    {{ profile.description }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    STATS
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12 gallery-thumbnails">
+            <img src="{% static 'resc/addimage.png' %}" class="img-thumbnail">
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 gallery-thumbnails">
+            <img src="{% static 'resc/addimage.png' %}" class="img-thumbnail">
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 gallery-thumbnails">
+            <img src="{% static 'resc/addimage.png' %}" class="img-thumbnail">
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 gallery-thumbnails">
+            <img src="{% static 'resc/addimage.png' %}" class="img-thumbnail">
+        </div>
+    </div>
+{% endblock %}
