@@ -1,7 +1,11 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import DetailView
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseNotFound
+from django.views.generic import DetailView, CreateView
 from django.contrib.auth.models import User
+from django.contrib import messages
+from .forms import ProfileCreationForm, EmailUserCreationForm
 from .models import Profile
+
 
 
 class ProfileView(DetailView):
@@ -25,3 +29,29 @@ class ProfileView(DetailView):
         context['profile'] = self.profile
         #context['photos'] = self.photos
         return context
+
+# -----------------------------------------------------------------------------------------------------------------
+
+def user_create_view(request):
+    if not request.user.is_authenticated:
+        if request.method == "POST":
+            userform = EmailUserCreationForm(request.POST)
+            profileform = ProfileCreationForm(request.POST)
+            if userform.is_valid() and profileform.is_valid():
+                # Create here two objects, and connect them
+                new_user = User.objects.create_user(**userform.cleaned_data)
+                profile = Profile.objects.create(user=new_user, **profileform.cleaned_data)
+                messages.success(request, 'Account has been created successfully')
+                return redirect('registry')
+            else:
+                messages.error(request, 'Account cannot be created')
+        else:
+            userform = EmailUserCreationForm()
+            profileform = ProfileCreationForm()
+        return render(request, 'registry.html', {'user_form': userform, 'profile_form': profileform})
+    #### For a moment
+    return HttpResponseNotFound('temporary redirection')
+
+
+
+

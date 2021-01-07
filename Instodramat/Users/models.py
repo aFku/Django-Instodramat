@@ -9,7 +9,7 @@ from . import default_vars
 class Profile(models.Model):
     first_name = models.CharField(max_length=20, blank=False, null=False)
     last_name = models.CharField(max_length=20, blank=False, null=False)
-    birthday = models.DateField(blank=False, null=False)
+    birthday = models.DateField(blank=True, null=True) # in future will be required
     description = models.CharField(max_length=255, blank=True, null=True)
     rename_path = RenamePath('Avatars')  # Create object from Scripts.RenamePath to rename uploaded avatar
     avatar = models.ImageField(upload_to=rename_path, blank=True, null=True)
@@ -20,7 +20,7 @@ class Profile(models.Model):
         (True, "Full name"),
         (False, "Only username"),
     )
-    display_name = models.CharField(max_length=71, choices=DISPLAY_NAME_CHOICE_VALUES, blank=False, null=False)
+    display_name = models.BooleanField(choices=DISPLAY_NAME_CHOICE_VALUES, blank=False, null=False)
     # Relation for associate followers
     follow = models.ManyToManyField(User, related_name='followers')
     GENDER_CHOICE_VALUES = (
