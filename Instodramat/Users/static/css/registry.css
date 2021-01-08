@@ -1,5 +1,17 @@
-#message-container{
-    background-color: #5AB8FF;
-    border: solid 2px #2496EE;
+#message-container {
+    background-color: #FD9999;
+    border: solid 2px #FF6363;
     border-radius: 10px;
+}
+
+.registry-labels {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+.registry-labels:hover {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
 }

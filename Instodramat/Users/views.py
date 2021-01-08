@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import ProfileCreationForm, EmailUserCreationForm
@@ -38,11 +38,15 @@ def user_create_view(request):
             userform = EmailUserCreationForm(request.POST)
             profileform = ProfileCreationForm(request.POST)
             if userform.is_valid() and profileform.is_valid():
-                # Create here two objects, and connect them
-                new_user = User.objects.create_user(**userform.cleaned_data)
-                profile = Profile.objects.create(user=new_user, **profileform.cleaned_data)
+                # Create here two objects, and connect them.
+                new_user = userform.save()
+                # Create profile
+                new_profile = profileform.save()
+                # Connect user with profile with one to one field
+                new_profile.user = new_user
+                new_profile.save()
                 messages.success(request, 'Account has been created successfully')
-                return redirect('registry')
+                return redirect(f'profile/{new_user.id}')
             else:
                 messages.error(request, 'Account cannot be created')
         else:
