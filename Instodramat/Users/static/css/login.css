@@ -1,0 +1,23 @@
+body, #container-background, #container-content {
+    height: 85vh;
+}
+
+#form-container {
+    height: 85vh;
+}
+
+.lg-error {
+    text-decoration: none;
+    color: red;
+    font-weight: bold;
+}
+
+.lg-error:hover {
+    color: red
+}
+
+#message-container {
+    background-color: #76F694;
+    border: solid 2px #2BF95B;
+    border-radius: 10px;
+}

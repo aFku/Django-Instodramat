@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load error_extras %}
+
+{% block title %}
+    Instodramat - Login
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+<div class="container">
+    <div class="row mx-auto" style="width: 50%;" id="message-container">
+        <div class="col-xl-12" style="text-align: center;">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="container h-100 d-flex justify-content-center" id="form-container">
+    <div class="card my-auto" style="width: 50%;">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="row mx-3">
+                <div class="col-lg-6 col-md-12 d-flex flex-column justify-content-center">
+                  <h3 class="display-5">{{ form.username.label_tag }}</h3>
+                </div>
+                <div class="col-lg-6 col-md-12 d-flex flex-column justify-content-center">
+                  {{ form.username }}
+                </div>
+            </div>
+            <div class="row mx-3">
+                <div class="col-lg-6 col-md-12 d-flex flex-column justify-content-center">
+                  <h3 class="display-5">{{ form.password.label_tag }}</h3>
+                </div>
+                <div class="col-lg-6 col-md-12 d-flex flex-column justify-content-center" >
+                  {{ form.password}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12" style="text-align: center">
+                    {% for error in form.non_field_errors %}
+                        <a class="lg-error">{{ error }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 my-2" style="text-align: center">
+                    <input type="submit" value="Log in">
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mt-1 mb-3" style="text-align: center">
+                <a class="util-links" href="#">Forgot password?</a>
+            </div>
+            <div class="col-lg-6 col-md-12 mt-1 mb-3" style="text-align: center">
+                <a class="util-links" href="/registry">Sign up</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
