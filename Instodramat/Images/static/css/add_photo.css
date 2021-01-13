@@ -1,0 +1,7 @@
+body, #container-background, #container-content {
+    height: 85vh;
+}
+
+#form-container {
+    height: 85vh;
+}

@@ -41,3 +41,8 @@ class Profile(models.Model):
     def get_avatar(self):
         return self.avatar.url if self.avatar.name else default_vars.DEFAULT_AVATAR
 
+    def get_photos(self):
+        return self.user.photos.all()
+
+    def get_all_comments(self):
+        return self.user.comments.all()

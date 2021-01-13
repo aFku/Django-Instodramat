@@ -59,7 +59,7 @@ def user_create_view(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
             userform = EmailUserCreationForm(request.POST)
-            profileform = ProfileCreationForm(request.POST)
+            profileform = ProfileCreationForm(request.POST, request.FILES)
             if userform.is_valid() and profileform.is_valid():
                 # Create here two objects, and connect them.
                 # form.save() is not hashing password, so use create_user()
