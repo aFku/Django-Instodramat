@@ -16,7 +16,7 @@ class Post(models.Model):
 
 
 class Photo(Post):
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='photos')
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='photos', null=True)
     rename_path = RenamePath('Photos')
     image = models.ImageField(upload_to=rename_path, blank=False, null=True)
 

@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from datetime import date
+from PIL import Image
 
 
 # To remember (for me ofc :D ): When form.add_error(None, error) - error added as non_field
@@ -18,9 +19,17 @@ class DateInput(forms.DateInput):
 
 
 class ProfileCreationForm(ModelForm):
+
+    # Fields for cropping
+    x = forms.FloatField(widget=forms.HiddenInput())
+    y = forms.FloatField(widget=forms.HiddenInput())
+    width = forms.FloatField(widget=forms.HiddenInput())
+    height = forms.FloatField(widget=forms.HiddenInput())
+
     class Meta:
         model = Profile
-        fields = ('first_name', 'last_name', 'avatar', 'description', 'birthday', 'display_name', 'gender')
+        fields = ('first_name', 'last_name', 'avatar', 'description', 'birthday', 'display_name',
+                  'gender', 'x', 'y', 'width', 'height')
         labels = {
             'first_name': 'First name',
             'last_name': 'Last name',
@@ -35,6 +44,7 @@ class ProfileCreationForm(ModelForm):
         widgets = {
             'description': forms.Textarea(),
             'birthday': DateInput(attrs={'min': '1990-01-01', 'max': date.today()}),
+            'avatar': forms.FileInput(attrs={'id': 'id_image'})  # Just changing id to fit execute_cropper.js
         }
 
     def clean(self):
@@ -46,6 +56,22 @@ class ProfileCreationForm(ModelForm):
             self.add_error('display_name', 'Wrong choice')  # Error for field
             self.add_error(None, ValidationError('You cannot choose full name to be '
                                                  'displayed while you leave name fields empty'))  # Error for form
+
+    #cropping when saving
+    def save(self):
+        profile = super(ProfileCreationForm, self).save()
+
+        x = self.cleaned_data.get('x')
+        y = self.cleaned_data.get('y')
+        w = self.cleaned_data.get('width')
+        h = self.cleaned_data.get('height')
+
+        image = Image.open(profile.avatar)
+        cropped_image = image.crop((x, y, w+x, h+y))
+        resized_image = cropped_image.resize((400, 400))
+        resized_image.save(profile.avatar.path)
+
+        return profile
 
 
 class EmailUserCreationForm(UserCreationForm):

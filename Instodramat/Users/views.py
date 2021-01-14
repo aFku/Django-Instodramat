@@ -23,14 +23,14 @@ class ProfileView(DetailView):
         # If user exist find profile (and add this in get_context_data)
         self.profile = get_object_or_404(Profile, user=user)
         # Get all user's photos related by their FK with related_name = photos
-        #self.photos = user.photos.all()
+        self.photos = user.photos.all()
         return user
 
     # Add profile object to context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['profile'] = self.profile
-        #context['photos'] = self.photos
+        context['photos'] = self.photos
         return context
 
 

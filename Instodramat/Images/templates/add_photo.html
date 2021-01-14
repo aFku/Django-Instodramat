@@ -8,12 +8,18 @@
 {% block styles %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/add_photo.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.css">
+    <script src="{% static  'js/execute_cropper.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'css/responsive-modal.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="container h-100 d-flex justify-content-center" id="form-container">
     <div class="card my-auto" style="width: 50%;">
         <form method="POST" id="formUpload" enctype="multipart/form-data">
+            {{form.x}}{{form.y}}{{form.width}}{{form.height}}
             {% csrf_token %}
             <div class="row mx-4">
                 <div class="col-lg-6 col-md-12 d-flex flex-column justify-content-center">
@@ -25,13 +31,30 @@
                   {{ form.text_content }}
                 </div>
             </div>
+        </form>
             <div class="row my-4">
                 <div class="col-xl-12" style="text-align: center;">
-                    <input type="submit" value="Add photo" class="btn btn-secondary">
+                    <input type="submit" value="Add photo" class="btn btn-secondary" id="save-model-button">
                 </div>
             </div>
-        </form>
     </div>
+</div>
+
+<!--- Modal for cropping --->
+<div class="modal" tabindex="-1" id="modal-content">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crop your image</h5>
+      </div>
+      <div class="modal-body" id="modal-image" style="width: 90%; margin: auto;">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="crop-button">Save</button>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
