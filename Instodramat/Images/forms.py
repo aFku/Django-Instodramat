@@ -1,7 +1,36 @@
 from django.forms import ModelForm
-from .models import Photo
+from .models import Photo, Comment
 from django import forms
-from PIL import Image
+from PIL import Image, ExifTags
+
+def prevent_rotate_flag(image):
+    """
+    Image.open() method reads ExifTags, and there is flag created when picture is taken.
+    This flag contain integer from 0 to 8 which stands for rotation of camera.
+    It is necessary to check this flag and rotate image.
+    """
+    # If there is no exiftags just return picture
+    try:
+        exif = image._getexif()  # Check exif
+        image_orientation = exif[274]  # Get orientation flag
+        if image_orientation in (2,'2'):
+            return image.transpose(Image.FLIP_LEFT_RIGHT)
+        elif image_orientation in (3,'3'):
+            return image.transpose(Image.ROTATE_180)
+        elif image_orientation in (4,'4'):
+            return image.transpose(Image.FLIP_TOP_BOTTOM)
+        elif image_orientation in (5,'5'):
+            return image.transpose(Image.ROTATE_90).transpose(Image.FLIP_TOP_BOTTOM)
+        elif image_orientation in (6,'6'):
+            return image.transpose(Image.ROTATE_270)
+        elif image_orientation in (7,'7'):
+            return image.transpose(Image.ROTATE_270).transpose(Image.FLIP_TOP_BOTTOM)
+        elif image_orientation in (8,'8'):
+            return image.transpose(Image.ROTATE_90)
+        else:
+            return image
+    except (AttributeError, IndexError):
+        return image
 
 
 class AddPhotoForm(ModelForm):
@@ -31,8 +60,15 @@ class AddPhotoForm(ModelForm):
         h = self.cleaned_data.get('height')
 
         image = Image.open(photo.image)
+        image = prevent_rotate_flag(image)
         cropped_image = image.crop((x, y, w+x, h+y))
-        resized_image = cropped_image.resize((400, 400))
+        resized_image = cropped_image.resize((1080, 1080))
         resized_image.save(photo.image.path)
 
         return photo
+
+
+class CommentAddForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text_content',)

@@ -35,17 +35,10 @@
     </div>
     <hr>
     <div class="row">
+        {% for photo in photos %}
         <div class="col-lg-4 col-md-6 col-sm-12 gallery-thumbnails">
-            <img src="{% static 'resc/addimage.png' %}" class="img-thumbnail">
+            <img src="{{ photo.image.url }}" class="img-thumbnail">
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-12 gallery-thumbnails">
-            <img src="{% static 'resc/addimage.png' %}" class="img-thumbnail">
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-12 gallery-thumbnails">
-            <img src="{% static 'resc/addimage.png' %}" class="img-thumbnail">
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-12 gallery-thumbnails">
-            <img src="{% static 'resc/addimage.png' %}" class="img-thumbnail">
-        </div>
+        {% endfor %}
     </div>
 {% endblock %}

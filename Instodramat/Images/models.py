@@ -21,7 +21,7 @@ class Photo(Post):
     image = models.ImageField(upload_to=rename_path, blank=False, null=True)
 
     def get_comments(self):
-        return Photo.comments.all().order_by('publish_date')
+        return self.comments.all().order_by('publish_date')
 
     def delete(self):
         """

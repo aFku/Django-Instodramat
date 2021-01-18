@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Instodramat - Photo preview
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/photo_preview.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-12 d-flex justify-content-center">
+            <img src="{{ photo.image.url }}" class="img-fluid image-border" width="50%" alt="{{ photo.text_content }}">
+        </div>
+        <div class="col-xl-12 image-border">
+            <a></a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
