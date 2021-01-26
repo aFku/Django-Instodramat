@@ -19,6 +19,7 @@ class Photo(Post):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='photos', null=True)
     rename_path = RenamePath('Photos')
     image = models.ImageField(upload_to=rename_path, blank=False, null=True)
+    likes = models.ManyToManyField('auth.User', related_name='photos_i_liked')
 
     def get_comments(self):
         return self.comments.all().order_by('publish_date')

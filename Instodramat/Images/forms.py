@@ -29,7 +29,7 @@ def prevent_rotate_flag(image):
             return image.transpose(Image.ROTATE_90)
         else:
             return image
-    except (AttributeError, IndexError):
+    except (AttributeError, IndexError, TypeError):
         return image
 
 

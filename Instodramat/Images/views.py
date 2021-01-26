@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import AddPhotoForm, CommentAddForm
 from django.contrib import messages
 from .models import Photo, Comment
+from django.http import JsonResponse
 
 
 @login_required(login_url='/login')
@@ -22,13 +23,39 @@ def add_image_view(request):
         photo_form = AddPhotoForm()
         return render(request, 'add_photo.html', {'form': photo_form})
 
-####Create URL with photo_id
+
 @login_required(login_url='/login')
 def image_preview(request, photo_id):
     photo = Photo.objects.get(id=photo_id)
-    form = CommentAddForm()
     comments_set = photo.get_comments()
     if request.method == "POST":
-        comment = Comment(**form.cleaned_data, author=request.user, related_photo=photo)
-        comment.save()
+        form = CommentAddForm(request.POST)
+        if form.is_valid():
+            comment = Comment(**form.cleaned_data, author=request.user, related_photo=photo)
+            comment.save()
+        else:
+            messages.error(request, "Comment cannot be added!")
+    form = CommentAddForm()
     return render(request, 'photo_preview.html', {'photo': photo, 'form': form, 'comments': comments_set})
+
+
+@login_required(login_url='/login')
+def like_photo_ajax(request, photo_id):
+    # check if request is ajax
+    if request.is_ajax and request.method == "GET":
+        # Get photo to access 'likes' field
+        photo = Photo.objects.get(id=photo_id)
+        user = request.user
+        # User is not liking this photo so view will add this user to likes
+        if user not in photo.likes.all():
+            photo.likes.add(user)
+            return JsonResponse({
+                'message': 'Photo has been successful liked',
+                'like_status': True}, status=200)
+        else:
+            photo.likes.remove(user)
+            return JsonResponse({
+                'message': 'Photo has been successful unliked',
+                'like_status': False}, status=200)
+    else:
+        return JsonResponse({'message': 'Wrong method for liking photo or request not AJAX'}, status=400)

@@ -8,16 +8,100 @@
 {% block styles %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/photo_preview.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{% static  'js/like.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
+
+    {% if messages %}
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-12 message-box my-3" style="width: 50%;">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-xl-12 d-flex justify-content-center">
             <img src="{{ photo.image.url }}" class="img-fluid image-border" width="50%" alt="{{ photo.text_content }}">
         </div>
-        <div class="col-xl-12 image-border">
-            <a></a>
+        <div class="col-xl-12 d-flex justify-content-center">
+            <div class="image-border util-bar" style="width: 50%;">
+               <div class="row d-flex justify-content-between like-bar" style="margin: 2px 0;">
+                   <div class="col-sm-2 d-flex align-items-center my-1">
+                       {% if request.user in photo.likes.all %}
+                        <a><img src="{% static 'icons/heart-thin-red.svg' %}" class="img-fluid" width="40vh" style="margin: auto;" id="like-icon"></a>
+                       {% else %}
+                        <a><img src="{% static 'icons/heart-thin-empty.svg' %}" class="img-fluid" width="40vh" style="margin: auto;" id="like-icon"></a>
+                       {% endif %}
+                   </div>
+                   <div class="col-sm-2 d-flex align-items-center my-1 justify-content-sm-end">
+                       <a style="margin-right: 2px;"><img src="{% static 'icons/ellipsis-v.svg' %}" class="img-fluid" width="7vh"></a>
+                   </div>
+               </div>
+                <div class="row" style="margin: 2px 0;">
+                   <div class="col-xl-12 description-content">
+                       <b>
+                           <a href="/profile/{{ photo.author.id }}" class="author-link">{{ photo.author.username }}</a>
+                       </b>
+                       <span class="image-description">
+                           {{ photo.text_content }}
+                       </span>
+                       <br>
+                       <span class="date-span">
+                           {{ photo.publish_date }}
+                       </span>
+                   </div>
+               </div>
+            </div>
         </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-xl-12" id="comments-header">
+            <h2>Comments ({{ comments.count }})</h2>
+        </div>
+    </div>
+    <div class="row">
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="col-xl-12 d-flex justify-content-center">
+                {% for field in form %}
+                    {{ field }}
+                {% endfor %}
+            </div>
+            <div class="col-xl-12 d-flex justify-content-center">
+                <input type="submit" value="Add comment" class="btn btn-secondary mx-3 my-3" style="width: 50%;">
+            </div>
+        </form>
+    </div>
+    <div class="row mt-2">
+        {% for comment in comments %}
+            <div class="col-xl-12 d-flex justify-content-center">
+                <div class="card mt-1" style="width:50%;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a href="/profile/{{ comment.author.id }}" class="author-link"><h4>{{ comment.author.username}}</h4></a>
+                            </div>
+                            <div class="col-lg-6 ml-auto">
+                                <div class="float-lg-end">
+                                    <span class="date-span">
+                                        <h5>
+                                            {{ comment.publish_date }}
+                                        </h5>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                {{ comment.text_content }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 
