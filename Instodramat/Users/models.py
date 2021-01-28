@@ -46,3 +46,6 @@ class Profile(models.Model):
 
     def get_all_comments(self):
         return self.user.comments.all()
+
+    def __str__(self):
+        return f'{self.user.username}`s profile'

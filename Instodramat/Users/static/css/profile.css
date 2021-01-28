@@ -17,3 +17,25 @@
     margin: auto;
     margin-top: 10px;
 }
+
+.follow-btn-unfollowed{
+    background-color: #1D72E1;
+    border: solid 1px #3D3D3D;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.follow-btn-followed{
+    background-color: #F2F2F2;
+    border: solid 1px #3D3D3D;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.follow-btn-content-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

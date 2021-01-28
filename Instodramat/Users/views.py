@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, JsonResponse
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -7,6 +7,7 @@ from .forms import ProfileCreationForm, EmailUserCreationForm
 from .models import Profile
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.decorators import login_required
 
 # -------------------------- Class-based
 
@@ -81,6 +82,26 @@ def user_create_view(request):
         return render(request, 'registry.html', {'user_form': userform, 'profile_form': profileform})
     #### For a moment
     return HttpResponseNotFound('temporary redirection')
+
+@login_required(login_url='/login')
+def follow_ajax(request, pk):
+    # Check if request is ajax
+    if request.is_ajax and request.method == "GET":
+        # Get all required data
+        followed_user = User.objects.get(pk=pk)
+        user_profile = request.user.profile  # Get related profile from OneToOne field
+        if followed_user not in user_profile.follow.all():
+            user_profile.follow.add(followed_user)
+            return JsonResponse({
+                'message': 'User has been successful followed',
+                'follow_status': True}, status=200)
+        else:
+            user_profile.follow.remove(followed_user)
+            return JsonResponse({
+                'message': 'Photo has been successful unfollowed',
+                'follow_status': False}, status=200)
+    else:
+        return JsonResponse({'message': 'Wrong method for user following or request not AJAX'}, status=400)
 
 
 
