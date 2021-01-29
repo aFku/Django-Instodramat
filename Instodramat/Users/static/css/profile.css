@@ -39,3 +39,15 @@
     align-items: center;
     justify-content: center;
 }
+
+.stat-description, .stat-description:hover{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.stat-counter, .stat-counter:hover{
+    text-decoration: none;
+    color: black;
+}

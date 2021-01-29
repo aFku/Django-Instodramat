@@ -44,8 +44,32 @@ class Profile(models.Model):
     def get_photos(self):
         return self.user.photos.all()
 
-    def get_all_comments(self):
+    def get_all_comments(self):        # necesery?
         return self.user.comments.all()
+
+    def get_comments_count(self):
+        return self.user.comments.count()
+
+    def get_given_likes_count(self):
+        return self.user.photos_i_liked.count()
+
+    def get_recived_likes_count(self):
+        counter = 0
+        for photo in self.user.photos.all():
+            counter += photo.likes.count()
+        return counter
+
+    def get_followers_count(self):
+        return self.user.followers.count()
+
+    def get_followers_list(self):
+        return self.user.followers.count()
+
+    def get_follow_count(self):
+        return self.follow.count()
+
+    def get_follow_list(self):
+        return self.follow.all()
 
     def __str__(self):
         return f'{self.user.username}`s profile'

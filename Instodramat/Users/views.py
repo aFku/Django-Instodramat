@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseNotFound, JsonResponse
+from django.http import HttpResponseNotFound, JsonResponse, HttpResponse
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -8,6 +8,8 @@ from .models import Profile
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
+
 
 # -------------------------- Class-based
 
@@ -102,6 +104,54 @@ def follow_ajax(request, pk):
                 'follow_status': False}, status=200)
     else:
         return JsonResponse({'message': 'Wrong method for user following or request not AJAX'}, status=400)
+
+
+@login_required(login_url='/login')
+def followers_list_ajax(request, pk):
+    """
+    Get list of users that follow you. Response as JSON
+    """
+    if request.is_ajax and request.method == "GET":
+        user = User.objects.get(pk=pk)
+        followers = user.profile.followers.all()
+        users_json = serializers.serialize('json', followers)
+        return HttpResponse(users_json)
+    else:
+        return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
+
+@login_required(login_url='/login')
+def follow_list_ajax(request, pk):
+    """
+    Get list of users that you are following. Response as JSON
+    """
+    if request.is_ajax and request.method == "GET":
+        user = User.objects.get(pk=pk)
+        follow = user.profile.follow.all()
+        users_json = {
+            'meta': {
+                'title': 'List of people that you follow' # List of your followers
+            },
+            'data': {}
+        }
+        for index, followed_user in enumerate(follow):
+            data = {
+                'username': followed_user.username,
+                'user_pk': followed_user.pk,
+                'first_name': followed_user.profile.first_name,
+                'last_name': followed_user.profile.last_name,
+                'profile_pk': followed_user.profile.pk,
+                'avatar_url': followed_user.profile.get_avatar()
+            }
+            users_json['data'][index] = data
+        return JsonResponse(users_json)
+    else:
+        return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
+
+
+
+
+
+
 
 
 

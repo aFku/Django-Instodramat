@@ -24,6 +24,12 @@ class Photo(Post):
     def get_comments(self):
         return self.comments.all().order_by('publish_date')
 
+    def get_likes_count(self):
+        return self.likes.count()
+
+    def get_likes_list(self):
+        return self.likes.all()
+
     def delete(self):
         """
         Delete file after deleting model

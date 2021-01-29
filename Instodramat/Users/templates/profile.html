@@ -31,7 +31,40 @@
             </div>
             <div class="row">
                 <div class="col-lg-8 col-md-12">
-                    STATS
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body" style="text-align: center;">
+                                     <a class="stat-counter">{{ profile.get_follow_count }}</a><br>
+                                    <a class="stat-description">Follow</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body" style="text-align: center;">
+                                     <a class="stat-counter">{{ profile.get_followers_count }}</a><br>
+                                    <a class="stat-description">Followers</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body" style="text-align: center;">
+                                    <a class="stat-counter">{{ profile.get_recived_likes_count }}</a><br>
+                                    <a class="stat-description">Recived likes</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body" style="text-align: center;">
+                                     <a class="stat-counter">{{ profile.get_given_likes_count }}</a><br>
+                                    <a class="stat-description">Given likes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

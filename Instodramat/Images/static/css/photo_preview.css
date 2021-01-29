@@ -38,3 +38,10 @@ hr{
     border: solid 2px #FF6363;
     border-radius: 10px;
 }
+
+.like-stat, .like-stat:hover{
+    text-decoration: none;
+    color: black;
+    margin-left: 5px;
+    font-weight: bold;
+}
