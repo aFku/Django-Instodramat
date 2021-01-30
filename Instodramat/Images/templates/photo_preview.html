@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/photo_preview.css' %}">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="{% static  'js/like.js' %}" defer></script>
-    <script src="{% static  'js/follow_list.js' %}" defer></script>
+    <script src="{% static  'js/user_list.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -33,11 +33,11 @@
                <div class="row d-flex justify-content-between like-bar" style="margin: 2px 0;">
                    <div class="col-sm-8 d-flex align-items-center my-1">
                        {% if request.user in photo.likes.all %}
-                        <a><img src="{% static 'icons/heart-thin-red.svg' %}" class="img-fluid" width="40vh" style="margin: auto;" id="like-icon"></a>
+                        <a><img src="{% static 'icons/heart-thin-red.svg' %}" class="img-fluid clickable" width="40vh" style="margin: auto;" id="like-icon"></a>
                        {% else %}
-                        <a><img src="{% static 'icons/heart-thin-empty.svg' %}" class="img-fluid" width="40vh" style="margin: auto;" id="like-icon"></a>
+                        <a><img src="{% static 'icons/heart-thin-empty.svg' %}" class="img-fluid clickable" width="40vh" style="margin: auto;" id="like-icon"></a>
                        {% endif %}
-                       <a class="like-stat">{{ photo.get_likes_count }} user(s) like it</a>
+                       <a class="like-stat clickable" onclick="get_list('like_list')">{{ photo.get_likes_count }} user(s) like it</a>
                    </div>
                    <div class="col-sm-2 d-flex align-items-center my-1 justify-content-sm-end">
                        <a style="margin-right: 2px;"><img src="{% static 'icons/ellipsis-v.svg' %}" class="img-fluid" width="7vh"></a>
@@ -46,10 +46,10 @@
                 <div class="row" style="margin: 2px 0;">
                    <div class="col-xl-12 description-content">
                        <b>
-                           <a href="/profile/{{ photo.author.id }}" class="author-link">{{ photo.author.username }}</a>
+                           <a href="{% url 'profile' pk=photo.author.id %}" class="author-link">{{ photo.author.username }}</a>
                        </b>
                        <span class="image-description">
-                           <a onclick="get_list('/profile/1/follow_list')">{{ photo.text_content }}</a>
+                           <a>{{ photo.text_content }}</a>
                        </span>
                        <br>
                        <span class="date-span">
@@ -85,7 +85,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
-                                <a href="/profile/{{ comment.author.id }}" class="author-link"><h4>{{ comment.author.username}}</h4></a>
+                                <a href="{% url 'profile' pk=comment.author.id %}" class="author-link"><h4>{{ comment.author.username}}</h4></a>
                             </div>
                             <div class="col-lg-6 ml-auto">
                                 <div class="float-lg-end">

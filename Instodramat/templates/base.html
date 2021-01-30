@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="{% static 'bs5/css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'bs5/js/bootstrap.js' %}">
         <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base_styles.css' %}">
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -24,14 +25,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item mx-2 navbar-item-flex-center">
-                        <a class="nav-link ">
+                        <a class="nav-link" href="/">
                             <img src="{% static 'icons/house-door-fill.svg' %}" class="mx-1">
                             <span class="align-middle"> Home </span>
                         </a>
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item mx-2 navbar-item-flex-center">
-                        <a class="nav-link">
+                        <a class="nav-link" href="{% url 'add_photo' %}">
                             <img src="{% static 'icons/plus-square.svg' %}" class="mx-1">
                             <span class="align-middle mx-1"> Add new photo </span>
                         </a>
@@ -43,21 +44,21 @@
                             <img src="{{ request.user.profile.get_avatar }}" class="d-inline-block align-top mx-1" width="51.2" height="42.8" style="border-radius: 40px;">
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#"><img src="{% static 'icons/person-circle.svg' %}" class="mx-1">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' pk=request.user.id %}"><img src="{% static 'icons/person-circle.svg' %}" class="mx-1">Profile</a></li>
                             <li><a class="dropdown-item" href="#"><img src="{% static 'icons/gear.svg' %}" class="mx-1">Settings</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/logout"><img src="{% static 'icons/door-open-fill.svg' %}" class="mx-1">Log out</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}"><img src="{% static 'icons/door-open-fill.svg' %}" class="mx-1">Log out</a></li>
                         </ul>
                     </li>
                     {% else %}
                     <li class="nav-item mx-2 navbar-item-flex-center">
-                        <a class="nav-link" href="/login">
+                        <a class="nav-link" href="{% url 'login' %}">
                             <img src="{% static 'icons/box-arrow-in-right.svg' %}" class="mx-1">
                             <span class="align-middle mx-1"> Log in </span>
                         </a>
                     </li>
                     <li class="nav-item mx-2 navbar-item-flex-center">
-                        <a class="nav-link" href="/registry">
+                        <a class="nav-link" href="{% url 'registry' %}">
                             <img src="{% static 'icons/gem.svg' %}" class="mx-1">
                             <span class="align-middle mx-1"> Sign up! </span>
                         </a>

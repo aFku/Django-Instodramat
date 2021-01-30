@@ -63,7 +63,7 @@ class Profile(models.Model):
         return self.user.followers.count()
 
     def get_followers_list(self):
-        return self.user.followers.count()
+        return self.user.followers.all()
 
     def get_follow_count(self):
         return self.follow.count()

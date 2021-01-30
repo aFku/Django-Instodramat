@@ -3,8 +3,8 @@ const body = document.body
 function generate_content(response){
     content = response['data'];
     meta = response['meta']
-    var modalString = body.innerHTML + `
-        <div class="modal" tabindex="-1" id="modal-content" style="display: block;">
+    var modalString = `
+        <div class="modal" tabindex="-1" id="modal-follow-content" style="display: block;">
             <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -15,13 +15,13 @@ function generate_content(response){
       modalString += `<div class="container"> `;
       for(index in content){
       index == 0 ? modalString += '' : modalString += '<hr>' ;
-      modalString += `<div class="row" onclick="redirect_to_profile('/profile/${content[index]['user_pk']}')"> `;
+      modalString += `<div class="row clickable" onclick="redirect_to_profile('/profile/${content[index]['user_pk']}')"> `;
       modalString += `<div class="col-sm-2">`;
       modalString += `<img src=${content[index]['avatar_url']} style="height: 50px; border-radius: 50px;">`;
       modalString += `</div>`;
       modalString += `<div class="col-sm-10">`;
       modalString += `<div class="row">`;
-      modalString += `<a style="font-weight: bold;">${content[index]['first_name']} ${content[index]['last_name']}</a><br>`;
+      modalString += `<a style="font-weight: bold;">${content[index]['display_name']}</a><br>`;
       modalString += `</div>`;
       modalString += `<div class="row">`;
       modalString += `<a>${content[index]['username']}</a>`;
@@ -34,7 +34,7 @@ function generate_content(response){
       modalString += `
                      </div>
                      <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="crop-button">Save</button>
+                        <button type="button" class="btn btn-primary" onclick="close_modal()">Close</button>
                     </div>
                 </div>
             </div>
@@ -59,4 +59,9 @@ function get_list(view_url){
 
 function redirect_to_profile(profile_url){
     window.location.href = profile_url;
+}
+
+function close_modal(){
+    var modal = document.getElementById('modal-follow-content');
+    modal.remove();
 }

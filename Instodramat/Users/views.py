@@ -85,7 +85,7 @@ def user_create_view(request):
     #### For a moment
     return HttpResponseNotFound('temporary redirection')
 
-@login_required(login_url='/login')
+@login_required(login_url='profile/login/')
 def follow_ajax(request, pk):
     # Check if request is ajax
     if request.is_ajax and request.method == "GET":
@@ -106,30 +106,47 @@ def follow_ajax(request, pk):
         return JsonResponse({'message': 'Wrong method for user following or request not AJAX'}, status=400)
 
 
-@login_required(login_url='/login')
+@login_required(login_url='profile/login/')
 def followers_list_ajax(request, pk):
     """
-    Get list of users that follow you. Response as JSON
+    Get list of profiles that follow you. Response as JSON
     """
     if request.is_ajax and request.method == "GET":
         user = User.objects.get(pk=pk)
-        followers = user.profile.followers.all()
-        users_json = serializers.serialize('json', followers)
-        return HttpResponse(users_json)
+        follow = user.profile.get_followers_list()  # List of profiles
+        users_json = {
+            'meta': {
+                'title': 'List of people that follow you'  # List of your followers
+            },
+            'data': {}
+        }
+        for index, followed_profile in enumerate(follow):
+            data = {
+                'username': followed_profile.user.username,
+                'user_pk': followed_profile.user.pk,
+                'first_name': followed_profile.first_name,
+                'last_name': followed_profile.last_name,
+                'profile_pk': followed_profile.pk,
+                'avatar_url': followed_profile.get_avatar(),
+                'display_name': followed_profile.get_name_to_display()
+            }
+            users_json['data'][index] = data
+        return JsonResponse(users_json)
     else:
         return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
 
-@login_required(login_url='/login')
+
+@login_required(login_url='profile/login/')
 def follow_list_ajax(request, pk):
     """
     Get list of users that you are following. Response as JSON
     """
     if request.is_ajax and request.method == "GET":
         user = User.objects.get(pk=pk)
-        follow = user.profile.follow.all()
+        follow = user.profile.get_follow_list()  # List of users
         users_json = {
             'meta': {
-                'title': 'List of people that you follow' # List of your followers
+                'title': 'List of people that you follow'
             },
             'data': {}
         }
@@ -140,7 +157,8 @@ def follow_list_ajax(request, pk):
                 'first_name': followed_user.profile.first_name,
                 'last_name': followed_user.profile.last_name,
                 'profile_pk': followed_user.profile.pk,
-                'avatar_url': followed_user.profile.get_avatar()
+                'avatar_url': followed_user.profile.get_avatar(),
+                'display_name': followed_user.profile.get_name_to_display()
             }
             users_json['data'][index] = data
         return JsonResponse(users_json)
