@@ -1,10 +1,20 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
-from .forms import AddPhotoForm, CommentAddForm
+from .forms import AddPhotoForm, CommentAddForm, EditPhotoForm
 from django.contrib import messages
 from .models import Photo, Comment
 from django.http import JsonResponse
+# ------------------------------- In-view tests
 
+
+def check_if_user_is_author(user, db_model_instance):
+    """
+    Not using permissions, because it is hard to define it for different model instances
+    """
+    return True if user.pk == db_model_instance.author.pk else False
+
+
+# ------------------------------- Views
 
 @login_required(login_url='profile/login/')
 def add_image_view(request):
@@ -89,3 +99,35 @@ def get_likes_list_ajax(request, photo_id):
         return JsonResponse(users_json)
     else:
         return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
+
+
+@login_required(login_url='profile/login/')
+def remove_photo(request, photo_id):
+    photo = Photo.objects.get(id=photo_id)
+    if check_if_user_is_author(request.user, photo):
+        photo.delete()
+        messages.success('Photo has been deleted!')
+        return redirect('main_site')
+    else:
+        messages.error("You do not have permissions to remove this photo!")
+        return redirect('/')
+
+@login_required(login_url='profile/login/')
+def edit_photo(request, photo_id):
+    photo = Photo.objects.get(id=photo_id)
+    if check_if_user_is_author(request.user, photo):
+        if request.method == "POST":
+            form = EditPhotoForm(request.POST, instance=photo)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Photo has been edited!')
+                return redirect(reverse('preview', args=(photo_id,)))
+            else:
+                messages.error(request, 'Photo has not been edited!')
+                return redirect(reverse('preview', args=(photo_id,)))
+        else:
+            form = EditPhotoForm()
+            return render(request, 'edit_photo.html', context={'form': form})
+    else:
+        messages.error(request, "You do not have permissions to edit this photo!")
+        return redirect('/')

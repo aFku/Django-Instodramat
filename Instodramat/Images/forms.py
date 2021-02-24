@@ -72,3 +72,10 @@ class CommentAddForm(ModelForm):
     class Meta:
         model = Comment
         fields = ('text_content',)
+
+
+class EditPhotoForm(ModelForm):
+
+    class Meta:
+        model = Photo
+        fields = ('text_content',)

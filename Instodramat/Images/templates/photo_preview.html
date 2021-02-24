@@ -39,8 +39,14 @@
                        {% endif %}
                        <a class="like-stat clickable" onclick="get_list('like_list')">{{ photo.get_likes_count }} user(s) like it</a>
                    </div>
-                   <div class="col-sm-2 d-flex align-items-center my-1 justify-content-sm-end">
-                       <a style="margin-right: 2px;"><img src="{% static 'icons/ellipsis-v.svg' %}" class="img-fluid" width="7vh"></a>
+                   <div class="col-sm-2 d-flex align-items-center my-1 justify-content-sm-end dropdown-container">
+                       {% if request.user.pk is photo.author.pk %}
+                       <button class="clear-button dropdown-button" style="margin-right: 2px;"><img src="{% static 'icons/ellipsis-v.svg' %}" class="img-fluid" width="7vh"></button>
+                       <div class="dropdown-content">
+                           <a href="remove/">Delete photo</a>
+                           <a href="edit/">Edit photo</a>
+                       </div>
+                       {% endif %}
                    </div>
                </div>
                 <div class="row" style="margin: 2px 0;">
