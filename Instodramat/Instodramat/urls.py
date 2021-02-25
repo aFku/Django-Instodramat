@@ -17,10 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from Images.views import temporary_mainpage_view
+from Images import views
 
 urlpatterns = [
     path('profile/', include('Users.urls')),
     path('photos/', include('Images.urls')),
-    path('/', temporary_mainpage_view, name='mainpage')
+    path('/', views.temporary_mainpage_view, name='mainpage')
 ]
