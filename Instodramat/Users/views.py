@@ -1,23 +1,26 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.http import HttpResponseNotFound, JsonResponse, HttpResponse
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import ProfileCreationForm, EmailUserCreationForm
+from .forms import ProfileCreationForm, EmailUserCreationForm, UserEmailChangeForm, ProfileDataChangeForm
 from .models import Profile
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 
 # -------------------------- Class-based
 
 
-class ProfileView(DetailView):
+class ProfileView(LoginRequiredMixin, DetailView):
     model = User
     context_object_name = 'user'
     template_name = 'profile.html'
+    login_url = '/profile/login/'
 
     # Find user and profile and photos
     def get_object(self):
@@ -45,10 +48,11 @@ class CustomLoginView(SuccessMessageMixin, LoginView):
     success_message = 'Logged in'
 
 
-class CustomLogoutView(LogoutView):
+class CustomLogoutView(LoginRequiredMixin, LogoutView):
     """
     This view just add message after log out
     """
+    login_url = 'profile/login/'
 
     def dispatch(self, request, *args, **kwargs):
         response = super().dispatch(request, *args, **kwargs)
@@ -78,6 +82,8 @@ def user_create_view(request):
                 return redirect('login')
             else:
                 messages.error(request, 'Account cannot be created')
+                print('user:', userform.errors)
+                print('profile', profileform.errors)
         else:
             userform = EmailUserCreationForm()
             profileform = ProfileCreationForm()
@@ -85,7 +91,8 @@ def user_create_view(request):
     #### For a moment
     return HttpResponseNotFound('temporary redirection')
 
-@login_required(login_url='profile/login/')
+
+@login_required(login_url='/profile/login/')
 def follow_ajax(request, pk):
     # Check if request is ajax
     if request.is_ajax and request.method == "GET":
@@ -106,7 +113,7 @@ def follow_ajax(request, pk):
         return JsonResponse({'message': 'Wrong method for user following or request not AJAX'}, status=400)
 
 
-@login_required(login_url='profile/login/')
+@login_required(login_url='/profile/login/')
 def followers_list_ajax(request, pk):
     """
     Get list of profiles that follow you. Response as JSON
@@ -136,7 +143,7 @@ def followers_list_ajax(request, pk):
         return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
 
 
-@login_required(login_url='profile/login/')
+@login_required(login_url='/profile/login/')
 def follow_list_ajax(request, pk):
     """
     Get list of users that you are following. Response as JSON
@@ -166,10 +173,101 @@ def follow_list_ajax(request, pk):
         return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
 
 
+@login_required(login_url='/profile/login/')
+def profile_settings_view(request):
+    """
+    - Change password
+    - Change email
+    - Change profile data
+    - Delete your account
+    This view doesn't change anything. It just provide forms.
+    All changes are made in specialized views.
+    """
+    user = get_object_or_404(User, pk=request.user.pk)
+    profile = get_object_or_404(Profile, user=user)
+
+    password_form = PasswordChangeForm(user)
+    email_form = UserEmailChangeForm()
+    profile_form = ProfileCreationForm(instance=profile)
+
+    return render(request, 'profile_settings.html', context={'password_form': password_form,
+                                                             'email_form': email_form,
+                                                             'profile_form': profile_form,
+                                                             'user': user})
 
 
+@login_required(login_url='/profile/login/')
+def profile_settings_change_password(request):
+    """
+    View that read POST parameters and change password
+    """
+    if request.method == "POST":
+        user = get_object_or_404(User, pk=request.user.pk)
+        password_form = PasswordChangeForm(user, request.POST)
+        if password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)
+            messages.success(request, 'Password has been changed!')
+        else:
+            messages.error(request, 'Password has not been changed!')
+        return redirect(reverse('profile_settings'))
+    else:
+        return HttpResponse(status=404)
 
 
+@login_required(login_url='/profile/login/')
+def profile_settings_change_email(request):
+    """
+    View that read POST parameters and change email
+    """
+    if request.method == "POST":
+        user = get_object_or_404(User, pk=request.user.pk)
+        email_form = UserEmailChangeForm(request.POST, instance=user)
+        if email_form.is_valid():
+            email_form.save()
+            messages.success(request, 'Email has been changed!')
+        else:
+            messages.error(request, 'Email has not been changed!')
+        return redirect(reverse('profile_settings'))
+    else:
+        return HttpResponse(status=404)
 
 
+@login_required(login_url='/profile/login/')
+def profile_settings_change_profile(request):
+    """
+    View that read POST parameters and change profile data
+    """
+    if request.method == "POST":
+        user = get_object_or_404(User, pk=request.user.pk)
+        profile = get_object_or_404(Profile, user=user)
+        profile_form = ProfileDataChangeForm(request.POST, request.FILES, instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Profile has been changed!')
+        else:
+            messages.error(request, 'Profile has not been changed!')
+        return redirect(reverse('profile_settings'))
+    else:
+        return HttpResponse(status=404)
 
+
+@login_required(login_url='/profile/login/')
+def profile_settings_delete_profile(request):
+    """
+    Delete profile if given password is correct
+    """
+    if request.method == "POST":
+        if request.user.check_password(request.POST.get('delete_password', '')):
+            user = get_object_or_404(User, pk=request.user.pk)
+            profile = get_object_or_404(Profile, user=user)
+            # Delete user
+            profile.delete()
+            user.delete()
+            messages.success(request, 'Account has been deleted!')
+            return redirect(reverse('main_page'))
+        else:
+            messages.error(request, 'Password for delete confirmation is incorrect')
+            return redirect(reverse('profile_settings'))
+    else:
+        return HttpResponse(status=404)

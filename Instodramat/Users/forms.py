@@ -20,11 +20,13 @@ class DateInput(forms.DateInput):
 
 class ProfileCreationForm(ModelForm):
 
-    # Fields for cropping
-    x = forms.FloatField(widget=forms.HiddenInput())
-    y = forms.FloatField(widget=forms.HiddenInput())
-    width = forms.FloatField(widget=forms.HiddenInput())
-    height = forms.FloatField(widget=forms.HiddenInput())
+    # Fields for cropping|They are not required to let user create account without avatars and give them default avatar
+    x = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    y = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    width = forms.FloatField(widget=forms.HiddenInput(), required=False)
+    height = forms.FloatField(widget=forms.HiddenInput(), required=False)
+
+    photo_added = False
 
     class Meta:
         model = Profile
@@ -56,20 +58,25 @@ class ProfileCreationForm(ModelForm):
             self.add_error('display_name', 'Wrong choice')  # Error for field
             self.add_error(None, ValidationError('You cannot choose full name to be '
                                                  'displayed while you leave name fields empty'))  # Error for form
+        # Check if user added photo
+        if cleaned_data.get('avatar'):
+            self.photo_added = True
 
     #cropping when saving
     def save(self):
         profile = super(ProfileCreationForm, self).save()
 
-        x = self.cleaned_data.get('x')
-        y = self.cleaned_data.get('y')
-        w = self.cleaned_data.get('width')
-        h = self.cleaned_data.get('height')
+        # if photo was added or changed fill positions for cropper
+        if self.photo_added or 'avatar' in self.changed_data:
+            x = self.cleaned_data.get('x')
+            y = self.cleaned_data.get('y')
+            w = self.cleaned_data.get('width')
+            h = self.cleaned_data.get('height')
 
-        image = Image.open(profile.avatar)
-        cropped_image = image.crop((x, y, w+x, h+y))
-        resized_image = cropped_image.resize((400, 400))
-        resized_image.save(profile.avatar.path)
+            image = Image.open(profile.avatar)
+            cropped_image = image.crop((x, y, w+x, h+y))
+            resized_image = cropped_image.resize((400, 400))
+            resized_image.save(profile.avatar.path)
 
         return profile
 
@@ -107,3 +114,28 @@ class EmailUserCreationForm(UserCreationForm):
         if User.objects.filter(email=email):
             self.add_error('email', 'This email address is already in use')
         return email
+
+
+class UserEmailChangeForm(ModelForm):
+
+    confirm_email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ('email', 'confirm_email')
+
+    def __init__(self, *args, **kwargs):
+        super(UserEmailChangeForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True  # Set this field as required when user want to change email
+
+    def clean(self):
+        if self.cleaned_data.get('email') != self.cleaned_data.get('confirm_email'):
+            return forms.ValidationError('Email addresses not match!')
+
+
+class ProfileDataChangeForm(ProfileCreationForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileDataChangeForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():  # Set all fields not required now, because we have all information that we want already
+            field.required = False

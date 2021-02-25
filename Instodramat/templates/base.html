@@ -45,7 +45,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="{% url 'profile' pk=request.user.id %}"><img src="{% static 'icons/person-circle.svg' %}" class="mx-1">Profile</a></li>
-                            <li><a class="dropdown-item" href="#"><img src="{% static 'icons/gear.svg' %}" class="mx-1">Settings</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile_settings' %}"><img src="{% static 'icons/gear.svg' %}" class="mx-1">Settings</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{% url 'logout' %}"><img src="{% static 'icons/door-open-fill.svg' %}" class="mx-1">Log out</a></li>
                         </ul>

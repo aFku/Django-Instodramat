@@ -51,14 +51,17 @@ input.addEventListener('change', ()=>{
     modalBox.style.display = "none";
 
     })
+})
 
-    submitButton.addEventListener('click', ()=>{
-    input_x.value = cropped_image.x;
-    input_y.value = cropped_image.y;
-    input_width.value = cropped_image.width;
-    input_height.value = cropped_image.height;
+submitButton.addEventListener('click', ()=>{
+    console.log('HERE')
+    if (cropped_image){
+        input_x.value = cropped_image.x;
+        input_y.value = cropped_image.y;
+        input_width.value = cropped_image.width;
+        input_height.value = cropped_image.height;
+    }
     imageForm.submit();
-    })
 })
 
 
