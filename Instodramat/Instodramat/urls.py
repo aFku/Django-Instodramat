@@ -22,5 +22,5 @@ from Images import views
 urlpatterns = [
     path('profile/', include('Users.urls')),
     path('photos/', include('Images.urls')),
-    path('/', views.temporary_mainpage_view, name='mainpage')
+    path('', views.temporary_mainpage_view, name='mainpage')
 ]
