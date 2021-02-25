@@ -137,3 +137,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/profile/login'
+
+# SMTP SETTINGS
+EMAIL_HOST = 'imap.gmail.com'
+EMAIL_PORT = 993
+EMAIL_HOST_USER = os.getenv('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+EMAIL_USE_TLS = True

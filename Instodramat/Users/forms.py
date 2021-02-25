@@ -1,7 +1,7 @@
 from .models import Profile
 from django import forms
 from django.forms import ModelForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from datetime import date
@@ -147,3 +147,15 @@ class ProfileDataChangeForm(ProfileCreationForm):
         super(ProfileDataChangeForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():  # Set all fields not required now, because we have all information that we want already
             field.required = False
+
+
+class PasswordResetFormEmailValidation(PasswordResetForm):
+    """
+    Check if there is account with given email address
+    """
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not User.objects.filter(email__iexact=email).exists():
+            self.add_error('email', 'There is no account associated with this email address!')
+        return email

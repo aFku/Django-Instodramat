@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.urls import reverse_lazy
 from django.http import HttpResponseNotFound, JsonResponse, HttpResponse
 from django.views.generic import DetailView
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import ProfileCreationForm, EmailUserCreationForm, UserEmailChangeForm, ProfileDataChangeForm
+from .forms import ProfileCreationForm, EmailUserCreationForm, UserEmailChangeForm, ProfileDataChangeForm, \
+    PasswordResetFormEmailValidation
 from .models import Profile
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -58,6 +60,25 @@ class CustomLogoutView(LoginRequiredMixin, LogoutView):
         response = super().dispatch(request, *args, **kwargs)
         messages.success(request, 'Successfully logged out')
         return response
+
+
+class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    """
+    Custom view for password reset. It gives user message if mail was send. It also uses new password reset form
+    with email validation.
+    """
+    template_name = 'password_reset.html'
+    success_message = 'Email with reset link was send to your email'
+    form_class = PasswordResetFormEmailValidation
+    # reverse is executing before urls are loaded in this case.
+    # To fix it I used reverse_lazy
+    success_url = reverse_lazy('login')
+
+
+class CustomPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    template_name = 'password_confirm.html'
+    success_message = 'Your password has been changed!'
+    success_url = reverse_lazy('login')
 
 # -------------------------- Method-based
 
