@@ -29,10 +29,13 @@ class Profile(models.Model):
     )
     gender = models.CharField(max_length=6, choices=GENDER_CHOICE_VALUES, blank=True, null=True)
 
-    def delete(self, using=None, keep_parents=False):
-        # Check if user is using default avatar
+    def remove_avatar(self):
         if self.avatar:
             remove(settings.MEDIA_ROOT + "/" + self.avatar.name)
+
+    def delete(self, using=None, keep_parents=False):
+        # Check if user is using default avatar
+        self.remove_avatar()
         super().delete()
 
     def get_name_to_display(self):

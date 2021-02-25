@@ -50,6 +50,12 @@ class ProfileCreationForm(ModelForm):
         }
 
     def clean(self):
+
+        # Remove old photo if exist for updating profile or leave when profile is just created
+        # Only here you can reach path for previous avatar
+        if self.instance:
+            self.instance.remove_avatar()
+
         cleaned_data = super(ProfileCreationForm, self).clean()
         # Check if both name fields are empty
         empty_name = True if cleaned_data.get('first_name') is None and cleaned_data.get('last_name') is None else False
@@ -64,10 +70,12 @@ class ProfileCreationForm(ModelForm):
 
     #cropping when saving
     def save(self):
+
         profile = super(ProfileCreationForm, self).save()
 
         # if photo was added or changed fill positions for cropper
         if self.photo_added or 'avatar' in self.changed_data:
+
             x = self.cleaned_data.get('x')
             y = self.cleaned_data.get('y')
             w = self.cleaned_data.get('width')

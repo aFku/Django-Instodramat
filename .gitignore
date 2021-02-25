@@ -137,3 +137,4 @@ dmypy.json
 test_photos
 media/Avatars/*
 media/Images/*
+media/
