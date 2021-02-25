@@ -73,12 +73,15 @@ class CustomPasswordResetView(SuccessMessageMixin, PasswordResetView):
     # reverse is executing before urls are loaded in this case.
     # To fix it I used reverse_lazy
     success_url = reverse_lazy('login')
+    subject_template_name = 'password_reset_subject.txt'
+    email_template_name = 'password_reset_email.html'
 
 
 class CustomPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
     template_name = 'password_confirm.html'
     success_message = 'Your password has been changed!'
     success_url = reverse_lazy('login')
+
 
 # -------------------------- Method-based
 

@@ -17,7 +17,7 @@ urlpatterns = [
     path('settings/change_profile/', views.profile_settings_change_profile, name='change_profile'),
     path('settings/delete_account/', views.profile_settings_delete_profile, name='delete_account'),
     path('password_reset/', views.CustomPasswordResetView.as_view(), name='password_reset'),
-    path(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-         views.PasswordResetConfirmView.as_view(), name='password_confirm'),
+    path('reset/<uidb64>/<token>/',
+         views.CustomPasswordResetConfirmView.as_view(), name='password_confirm'),
 
 ]
