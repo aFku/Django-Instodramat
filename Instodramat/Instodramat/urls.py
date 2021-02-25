@@ -23,5 +23,3 @@ urlpatterns = [
     path('profile/', include('Users.urls')),
     path('photos/', include('Images.urls')),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
