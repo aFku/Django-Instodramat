@@ -1,2 +1,2 @@
-release: python Instodramat/manage.py migrate
+release: ./start.sh
 web: gunicorn --pythonpath Instodramat Instodramat.wsgi
