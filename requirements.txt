@@ -3,3 +3,4 @@ setuptools
 Django
 Pillow
 gunicorn
+whitenoise
