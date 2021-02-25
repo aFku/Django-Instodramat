@@ -131,3 +131,7 @@ def edit_photo(request, photo_id):
     else:
         messages.error(request, "You do not have permissions to edit this photo!")
         return redirect('/')
+
+
+def temporary_mainpage_view(request):
+    return render(request, 'mainpage.html')

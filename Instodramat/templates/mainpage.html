@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load error_extras %}
+
+{% block title %}
+    Instodramat - Main Page
+{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if messages %}
+<div class="container">
+    <div class="row mx-auto" style="width: 50%;" id="message-container">
+        <div class="col-xl-12" style="text-align: center;">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<ul>
+    <li>
+        <b>'/'</b> - Main page with URLs list
+    </li>
+    <li>
+        <b>'/profile/[id]'</b> - Page with user profile (user with given id, id - int)
+    </li>
+    <li>
+        <b>'/profile/login'</b> - Login Page
+    </li>
+    <li>
+        <b>'/profile/logout'</b> - Logout view
+    </li>
+    <li>
+        <b>'/profile/settings'</b> - Page with user and profile settings
+    </li>
+    <li>
+        <b>'/profile/password_reset'</b> - Password reset page (only for non authorized)
+    </li>
+    <li>
+        <b>'/profile/registry'</b> - Registry page
+    </li>
+    <li>
+        <b>'/photos/add'</b> - Page for adding photos
+    </li>
+    <li>
+        <b>'/photos/preview/[id]'</b> - Preview of photo with given id
+    </li>
+    <li>
+        <b>'/photos/preview/[id]/remove'</b> - View that let user delete photo (If user is owner)
+    </li>
+    <li>
+        <b>'/photos/preview/[id]/edit'</b> - View that let user edit photo (If user is owner)
+    </li>
+</ul>
+{% endblock %}
