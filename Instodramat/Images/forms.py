@@ -68,7 +68,7 @@ class AddPhotoForm(ModelForm):
 
         # Some magic to save photo in dropbox
         fh = storage.open(photo.image.name, "w")
-        picture_format = 'jpg'
+        picture_format = 'png'
         resized_image.save(fh, picture_format)
         fh.close()
         resized_image.save(photo.image.path)
