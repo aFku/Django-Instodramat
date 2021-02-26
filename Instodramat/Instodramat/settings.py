@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Users',
-    'Images'
+    'Images',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -140,6 +141,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/profile/login'
 
@@ -151,3 +154,8 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
 EMAIL_USE_SSL = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+DROPBOX_OAUTH2_TOKEN = os.getenv('STORAGE_TOKEN_OAUTH2')
+DROPBOX_ROOT_PATH = os.getenv('STORAGE_ROOT_PATH')
+DROPBOX_TIMEOUT = os.getenv('DROPBOX_TIMEOUT')
+DROPBOX_WRITE_MODE = os.getenv('DROPBOX_WRITE_MODE')
