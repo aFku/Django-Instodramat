@@ -67,7 +67,7 @@ class AddPhotoForm(ModelForm):
         resized_image = cropped_image.resize((1080, 1080))
 
         # Some magic to save photo in dropbox
-        fh = storage.open(photo.primaryphoto.name, "w")
+        fh = storage.open(photo.image.name, "w")
         picture_format = 'jpg'
         resized_image.save(fh, picture_format)
         fh.close()

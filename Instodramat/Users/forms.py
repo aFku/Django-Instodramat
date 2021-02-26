@@ -87,11 +87,11 @@ class ProfileCreationForm(ModelForm):
             resized_image = cropped_image.resize((400, 400))
 
             # Some magic to save photo in dropbox
-            fh = storage.open(profile.primaryphoto.name, "w")
+            fh = storage.open(profile.avatar.name, "w")
             picture_format = 'jpg'
             resized_image.save(fh, picture_format)
             fh.close()
-            resized_image.save(profile.image.path)
+            resized_image.save(profile.avatar.path)
 
         return profile
 
