@@ -157,5 +157,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DROPBOX_OAUTH2_TOKEN = os.getenv('STORAGE_TOKEN_OAUTH2')
 DROPBOX_ROOT_PATH = os.getenv('STORAGE_ROOT_PATH')
-DROPBOX_TIMEOUT = os.getenv('DROPBOX_TIMEOUT')
 DROPBOX_WRITE_MODE = os.getenv('DROPBOX_WRITE_MODE')
