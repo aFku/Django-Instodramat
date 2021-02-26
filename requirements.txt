@@ -4,3 +4,4 @@ Django
 Pillow
 gunicorn
 whitenoise
+psycopg2
