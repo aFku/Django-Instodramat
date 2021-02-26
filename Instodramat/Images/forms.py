@@ -71,7 +71,6 @@ class AddPhotoForm(ModelForm):
         picture_format = 'png'
         resized_image.save(fh, picture_format)
         fh.close()
-        resized_image.save(photo.image.path)
         return photo
 
 
