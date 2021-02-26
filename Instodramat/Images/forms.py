@@ -1,7 +1,9 @@
 from django.forms import ModelForm
 from .models import Photo, Comment
 from django import forms
-from PIL import Image, ExifTags
+from PIL import Image
+from django.core.files.storage import default_storage as storage
+
 
 def prevent_rotate_flag(image):
     """
@@ -63,8 +65,13 @@ class AddPhotoForm(ModelForm):
         image = prevent_rotate_flag(image)
         cropped_image = image.crop((x, y, w+x, h+y))
         resized_image = cropped_image.resize((1080, 1080))
-        resized_image.save(photo.image.path)
 
+        # Some magic to save photo in dropbox
+        fh = storage.open(photo.primaryphoto.name, "w")
+        picture_format = 'jpg'
+        resized_image.save(fh, picture_format)
+        fh.close()
+        resized_image.save(photo.image.path)
         return photo
 
 

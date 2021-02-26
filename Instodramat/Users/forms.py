@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from datetime import date
 from PIL import Image
+from django.core.files.storage import default_storage as storage
 
 
 # To remember (for me ofc :D ): When form.add_error(None, error) - error added as non_field
@@ -84,7 +85,13 @@ class ProfileCreationForm(ModelForm):
             image = Image.open(profile.avatar)
             cropped_image = image.crop((x, y, w+x, h+y))
             resized_image = cropped_image.resize((400, 400))
-            resized_image.save(profile.avatar.path)
+
+            # Some magic to save photo in dropbox
+            fh = storage.open(profile.primaryphoto.name, "w")
+            picture_format = 'jpg'
+            resized_image.save(fh, picture_format)
+            fh.close()
+            resized_image.save(profile.image.path)
 
         return profile
 
