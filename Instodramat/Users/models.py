@@ -74,5 +74,16 @@ class Profile(models.Model):
     def get_follow_list(self):
         return self.follow.all()
 
+    def get_list_of_latest_follows_photos(self):
+        """
+        Get all photos from users that you follow and return list of them sorted by publish date
+        /For now, there is no better option to do that/
+        """
+        follow_list = self.get_follow_list()
+        follow_photos = []
+        for user in follow_list:
+            follow_photos.extend(user.profile.get_photos())
+        return sorted(follow_photos, key=lambda photo: photo.publish_date)
+
     def __str__(self):
         return f'{self.user.username}`s profile'

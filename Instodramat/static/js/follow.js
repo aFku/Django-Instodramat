@@ -20,7 +20,7 @@ function change_button_unfollow(btn_id){
 
 //This function will be universal so url for follow view must be passes as argument
 function follow(follow_url, button_id){
-    follow_url = window.location.pathname + '/' + follow_url;
+    follow_url = window.location.pathname + follow_url;
     $.ajax({
         type: 'GET',
         url: follow_url,
