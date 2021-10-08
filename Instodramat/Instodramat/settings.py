@@ -137,7 +137,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/profile/login'
+LOGIN_URL = '/profile/login'
+LOGOUT_REDIRECT_URL = '/'
 
 # SMTP SETTINGS
 EMAIL_HOST = 'smtp.gmail.com'
@@ -145,3 +146,5 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = os.getenv('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
 EMAIL_USE_SSL = True
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'

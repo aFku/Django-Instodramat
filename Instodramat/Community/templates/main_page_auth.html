@@ -11,6 +11,21 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        .go-to-photo-link{
+            text-decoration: none;
+            color: black;
+        }
+        .author-link:hover, go-to-photo-link:hover{
+            color: #3699eb;
+        }
+        .paginator-buttons{
+            text-align: center;
+        }
+        .page-box{
+            border: solid 1px gray;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -34,13 +49,15 @@
     {% endif %}
     <div class="row justify-content-center">
         <div class="col-lg-10 px-0" id="photos_container">
-            {% for photo in photos %}
+        <!--- This is paginator object. Need to extract page (photo=page) and then extract photos--->
+            {% for photo in page %}
             <div class="row  mb-3">
-                <div class="card">
+                <div class="card px-0">
                     <div class="card-header">
-                        <a href="/profile/{{photo.author.id}}" style="text-decoration: none; color: black">
-                        <img src="{{ photo.author.profile.get_avatar }}" style="height: 50px; border-radius: 50px">
-                        <b>{{ photo.author.profile.get_name_to_display }}</b></a>
+                        <a href="/profile/{{ photo.author.id }}" style="text-decoration: none; color: black">
+                            <img src="{{ photo.author.profile.get_avatar }}" style="height: 50px; border-radius: 50px">
+                            <b><span class="author-link my-auto">{{ photo.author.profile.get_name_to_display }}</span></b>
+                        </a>
                     </div>
                     <div class="card-body">
                         <div style="text-align: center">
@@ -52,13 +69,18 @@
                         </div>
                     </div>
                     <div class="card-footer" style="text-align: center">
-                        <a href="/photos/{{photo.id}}">
-                            Go to the photo!
+                        <a href="/photos/preview/{{photo.id}}" class="go-to-photo-link">
+                            Click here to see the photo!
                         </a>
                     </div>
                 </div>
             </div>
-            {% endfor %}
+                    {% endfor %}
+                <div class="row justify-content-around" id="page-bar-paginator">
+                <div class="col-xl-4 paginator-previous paginator-buttons"><button type="button" class="btn btn-secondary" {% if not page.has_previous %}disabled{% endif %}><a {% if page.has_previous %} href="?page={{page.previous_page_number}}" style="text-decoration: none; color: white;"{% endif %}>Previous</a></button></div>
+                <div class="col-xl-4 paginator-page-number paginator-buttons my-auto"><a>Page: {{ page.number }}/{{ page.paginator.num_pages }}</a></div>
+                <div class="col-xl-4 paginator-next paginator-buttons"><button type="button" class="btn btn-secondary" {% if not page.has_next %}disabled{% endif %}><a {% if page.has_next %} href="?page={{page.next_page_number}}" style="text-decoration: none; color: white;"{% endif %}>Next</a></button></div>
+            </div>
         </div>
     </div>
 
