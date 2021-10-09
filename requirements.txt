@@ -2,3 +2,4 @@ pip
 setuptools
 Django
 Pillow
+django-elasticsearch-dsl

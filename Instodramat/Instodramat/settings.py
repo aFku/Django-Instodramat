@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Users',
     'Images',
     'Community',
+    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
@@ -148,3 +149,11 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
 EMAIL_USE_SSL = True
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+# temporary elasticsearch configuration
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    }
+}
