@@ -9,8 +9,9 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/photo_preview.css' %}">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{% static  'js/create_user_list.js' %}" type="module" defer></script>
     <script src="{% static  'js/like.js' %}" defer></script>
-    <script src="{% static  'js/user_list.js' %}" defer></script>
+    <script src="{% static  'js/user_list.js' %}" defer type="module"></script>
 {% endblock %}
 
 {% block content %}
