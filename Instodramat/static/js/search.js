@@ -1,3 +1,5 @@
+import {create_user_list} from "./create_user_list.js";
+
 const searchbar = document.querySelector("#searchbar")
 
 searchbar.addEventListener('input', () => {
@@ -8,7 +10,15 @@ searchbar.addEventListener('input', () => {
             'searchinput': searchbar.value
         },
         success: function (response) {
-            console.log(response)
+            setSearchResult(response)
         }
     })
 })
+
+const searchBox = document.querySelector("#search-box")
+
+
+const setSearchResult = (data) => {
+    searchBox.innerHTML = '' // Clear content
+    create_user_list(data, '50px', searchBox, true, true)
+}

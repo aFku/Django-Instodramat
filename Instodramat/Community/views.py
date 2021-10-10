@@ -37,19 +37,15 @@ def latest_photos_all_view(request):
 def ajax_search_endpoint(request):
     if request.is_ajax() and request.method == "GET":
         search_input = request.GET.get('searchinput')
-        print(search_input)
         search_result = Profile.objects.filter(Q(first_name__contains=search_input) |
                                                Q(last_name__contains=search_input) |
-                                               Q(user__username__contains=search_input))
+                                               Q(user__username__contains=search_input))[:5]
         # I tried Django serializer, but this is the best way to include username from profile.user.username to JSON
-        search_result = [{'pk': result.pk,
-                          'first_name': result.first_name,
-                          'last_name': result.last_name,
-                          'display_name': result.display_name,
+        search_result = [{'user_pk': result.pk,
+                          'display_name': result.get_name_to_display(),
                           'username': result.user.username,
-                          'avatar': result.get_avatar
+                          'avatar_url': result.get_avatar()
                           } for result in search_result]
-
         return JsonResponse(search_result, status=200, safe=False)
     else:
         return JsonResponse({

@@ -9,8 +9,10 @@
 {% block styles %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="{% static  'js/search.js' %}" defer></script>
+    <script src="{% static  'js/search.js' %}" defer type="module"></script>
+    <script src="{% static  'js/create_user_list.js' %}" defer type="module"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,8 +21,9 @@
                 <img src="{% static 'icons/search.svg' %}" class="mx-1">
             </div>
             <div class="my-auto" style="flex-grow: 1;">
-                <form class="form-inline">
+                <form class="form-inline" autocomplete="off">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchbar">
+                    <div class="data" id="search-box"></div>
                 </form>
             </div>
         </div>
