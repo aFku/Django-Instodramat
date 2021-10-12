@@ -33,7 +33,7 @@ def latest_photos_all_view(request):
     return render(request, 'latest_photos.html', {'latest_photos': latest_photos})
 
 @csrf_exempt
-#@login_required
+@login_required
 def ajax_search_endpoint(request):
     if request.is_ajax() and request.method == "GET":
         search_input = request.GET.get('searchinput')
