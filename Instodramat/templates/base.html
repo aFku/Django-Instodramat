@@ -1,4 +1,6 @@
 {% load static %}
+{% load error_extras %}
+{% load detection %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +10,7 @@
         <link rel="stylesheet" href="{% static 'bs5/js/bootstrap.js' %}">
         <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
         <link rel="stylesheet" href="{% static 'css/base_styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/messages.css' %}">
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -77,6 +80,23 @@
     </nav>
     <div class="container-fluid bg-light py-4" id="container-background">
         <!--- Start printing content --->
+    {% if messages %}
+        <div class="container mb-5">
+        {% for message in messages %}
+            <div class="row mx-auto" style="width: 50%;" id="{% if message.tags == 'success' %}message-container-success{% else %}message-container-error{% endif %}">
+                <div class="col-xl-12" style="text-align: center;">
+                    {{ message }}
+                    {% if user_form.non_field_errors or profile_form.non_field_errors %}
+                    <ul>
+                        {{ user_form.non_field_errors|error_as_li }}
+                        {{ profile_form.non_field_errors|error_as_li }}
+                    </ul>
+                {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
         <div class="container" id="container-content">
             {% block content %}
             {% endblock %}

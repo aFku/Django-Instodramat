@@ -29,24 +29,6 @@
 {% endblock %}
 
 {% block content %}
-
-    {% if messages %}
-    <div class="row">
-        <div class="col-lg-12" id="message-container">
-            <a>
-                    {% for message in messages %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                {% if user_form.non_field_errors or profile_form.non_field_errors %}
-                    <ul>
-                        {{ user_form.non_field_errors|error_as_li }}
-                        {{ profile_form.non_field_errors|error_as_li }}
-                    </ul>
-                {% endif %}
-            </a>
-        </div>
-    </div>
-    {% endif %}
     <div class="row justify-content-center">
         <div class="col-lg-10 px-0" id="photos_container">
         <!--- This is paginator object. Need to extract page (photo=page) and then extract photos--->

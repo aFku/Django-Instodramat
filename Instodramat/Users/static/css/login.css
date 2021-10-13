@@ -15,9 +15,3 @@ body, #container-background, #container-content {
 .lg-error:hover {
     color: red
 }
-
-#message-container {
-    background-color: #76F694;
-    border: solid 2px #2BF95B;
-    border-radius: 10px;
-}

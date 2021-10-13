@@ -15,16 +15,6 @@
 {% endblock %}
 
 {% block content %}
-
-    {% if messages %}
-        <div class="row d-flex justify-content-center">
-            <div class="col-xl-12 message-box my-3" style="width: 50%;">
-                {% for message in messages %}
-                    {{ message }}
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
     <div class="row">
         <div class="col-xl-12 d-flex justify-content-center">
             <img src="{{ photo.image.url }}" class="img-fluid image-border" width="50%" alt="{{ photo.text_content }}">
