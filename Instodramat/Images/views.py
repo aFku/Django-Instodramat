@@ -98,7 +98,7 @@ def get_likes_list_ajax(request, photo_id):
             users_json['data'][index] = data
         return JsonResponse(users_json)
     else:
-        return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
+        return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=405)
 
 
 @login_required(login_url='profile/login/')

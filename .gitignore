@@ -138,3 +138,10 @@ test_photos
 media/Avatars/*
 media/Images/*
 media/
+
+# test files
+Instodramat/User.json
+Instodramat/create_photos.py
+Instodramat/create_users.py
+Instodramat/photos.json
+test.py

@@ -112,8 +112,7 @@ def user_create_view(request):
             userform = EmailUserCreationForm()
             profileform = ProfileCreationForm()
         return render(request, 'registry.html', {'user_form': userform, 'profile_form': profileform})
-    #### For a moment
-    return HttpResponseNotFound('temporary redirection')
+    return redirect('main_page')
 
 
 @login_required(login_url='/profile/login/')
@@ -134,7 +133,7 @@ def follow_ajax(request, pk):
                 'message': 'Photo has been successful unfollowed',
                 'follow_status': False}, status=200)
     else:
-        return JsonResponse({'message': 'Wrong method for user following or request not AJAX'}, status=400)
+        return JsonResponse({'message': 'Wrong method for user following or request not AJAX'}, status=405)
 
 
 @login_required(login_url='/profile/login/')
@@ -164,7 +163,7 @@ def followers_list_ajax(request, pk):
             users_json['data'][index] = data
         return JsonResponse(users_json)
     else:
-        return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
+        return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=405)
 
 
 @login_required(login_url='/profile/login/')
@@ -194,7 +193,7 @@ def follow_list_ajax(request, pk):
             users_json['data'][index] = data
         return JsonResponse(users_json)
     else:
-        return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=400)
+        return JsonResponse({'message': 'Wrong method for getting list or request not AJAX'}, status=405)
 
 
 @login_required(login_url='/profile/login/')
@@ -236,7 +235,7 @@ def profile_settings_change_password(request):
             messages.error(request, 'Password has not been changed!')
         return redirect(reverse('profile_settings'))
     else:
-        return HttpResponse(status=404)
+        return HttpResponse(status=405)
 
 
 @login_required(login_url='/profile/login/')
@@ -254,7 +253,7 @@ def profile_settings_change_email(request):
             messages.error(request, 'Email has not been changed!')
         return redirect(reverse('profile_settings'))
     else:
-        return HttpResponse(status=404)
+        return HttpResponse(status=405)
 
 
 @login_required(login_url='/profile/login/')
@@ -273,7 +272,7 @@ def profile_settings_change_profile(request):
             messages.error(request, 'Profile has not been changed!')
         return redirect(reverse('profile_settings'))
     else:
-        return HttpResponse(status=404)
+        return HttpResponse(status=405)
 
 
 @login_required(login_url='/profile/login/')
@@ -294,4 +293,4 @@ def profile_settings_delete_profile(request):
             messages.error(request, 'Password for delete confirmation is incorrect')
             return redirect(reverse('profile_settings'))
     else:
-        return HttpResponse(status=404)
+        return HttpResponse(status=405)

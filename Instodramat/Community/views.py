@@ -50,7 +50,7 @@ def ajax_search_endpoint(request):
     else:
         return JsonResponse({
             'message': 'Bad request'
-        }, status=400)
+        }, status=405)
 
 
 
