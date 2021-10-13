@@ -1,0 +1,11 @@
+#message-container-error {
+    background-color: #FD9999;
+    border: solid 2px #FF6363;
+    border-radius: 10px;
+}
+
+#message-container-success {
+    background-color: #76F694;
+    border: solid 2px #2BF95B;
+    border-radius: 10px;
+}
