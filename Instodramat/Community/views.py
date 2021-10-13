@@ -29,7 +29,7 @@ def main_webpage_unauth_view(request):
 
 @login_required
 def latest_photos_all_view(request):
-    latest_photos = Photo.objects.order_by('publish_date')[:30]
+    latest_photos = Photo.objects.order_by('-publish_date')[:30]
     return render(request, 'latest_photos.html', {'latest_photos': latest_photos})
 
 @csrf_exempt
