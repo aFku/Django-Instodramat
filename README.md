@@ -50,7 +50,7 @@ App is running in DEBUG mode True, because it is easier way to handle static and
 
 Main webpage for not logged in users is very simple. It tells us to log in or to create new account.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/main_unauth.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/main_unauth.PNG" width="240" height="130">
 
 ## Register ('/profile/register/')
 
@@ -62,44 +62,44 @@ Register webpage contains form with 2 section that allows users create new accou
 
 Via Login webpage you can log in :D There is a form for your creds. You also can find there references to password reset and register page.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/login.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/login.PNG" width="240" height="130">
 
 ## Password reset ('/profile/password_reset/')
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/reset_password.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/reset_password.PNG" width="240" height="130">
 
 ## Main webpage ('/') [authorized] [empty]
 
 If you log in for the first time or you don't follow any user you should see message on your main webpage. It will be there untill you follow someone who uploads photo.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/main_empty.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/main_empty.PNG" width="240" height="130">
 
 ## Main webpage ('/') [authorized] [with content]
 
 If you follow some users and they have photos you should see them on main webpage. On the top of the list you can see the most recent photo. At the bottom of the website you can find buttons to navigate beetwen paginator pages.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/main.PNG" width="240" height="130"> <img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/main_pagination.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/main.PNG" width="240" height="130"> <img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/main_pagination.PNG" width="240" height="130">
 
 ## Add Photo ('/photos/add/')
 
 Webpage contains form with only 2 fields that allow users upload file and add description.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/add_photo.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/add_photo.PNG" width="240" height="130">
 
 ## Profile ('/profile/<int:pk>/')
 
 Profile webpage shows almost all information about user. You can see there username and display name, list and number of followers and all photos that users uploaded. If you are on someone's profile you can see there also button to follow/unfollow this user.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/profile1.PNG" width="240" height="130"><img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/profile2.PNG" width="240" height="130"><img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/profile3.PNG" width="240" height="130"><img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/profile4.PNG" width="240" height="130"><img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/profile5.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/profile1.PNG" width="240" height="130"><img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/profile2.PNG" width="240" height="130"><img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/profile3.PNG" width="240" height="130"><img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/profile4.PNG" width="240" height="130"><img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/profile5.PNG" width="240" height="130">
 
 ## Profile settings ('/profile/settings/')
 
 In your profile settings you are able to change password, email or other profile data. Also you can delete there your account.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/settings.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/settings.PNG" width="240" height="130">
 
 ## Community ('/community/')
 
 If you want to find new users to follow, or interesting photos you should go to community section. You can find there the newest photos from all users. There is also search bar where you can find any user.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/community.PNG" width="240" height="130"> <img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/search.gif" width="240" height="130" />
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/community.PNG" width="240" height="130"> <img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/search.gif" width="240" height="130" />
