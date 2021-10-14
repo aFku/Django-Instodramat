@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9-slim
 
 EXPOSE 8080
 
@@ -12,6 +12,8 @@ ENV EMAIL_HOST_PASSWORD=instodramat_password
 ADD ./Instodramat /app
 ADD ./requirements.txt /app
 WORKDIR /app
+RUN mkdir /app/media
+RUN mkdir /app/media/Avatars
 
 RUN pip3 install -r requirements.txt
 
