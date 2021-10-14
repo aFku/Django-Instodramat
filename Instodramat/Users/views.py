@@ -146,7 +146,7 @@ def followers_list_ajax(request, pk):
         follow = user.profile.get_followers_list()  # List of profiles
         users_json = {
             'meta': {
-                'title': 'List of people that follow you'  # List of your followers
+                'title': 'Followers'  # List of your followers
             },
             'data': {}
         }
@@ -176,7 +176,7 @@ def follow_list_ajax(request, pk):
         follow = user.profile.get_follow_list()  # List of users
         users_json = {
             'meta': {
-                'title': 'List of people that you follow'
+                'title': 'Follow'
             },
             'data': {}
         }
