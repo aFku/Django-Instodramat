@@ -56,7 +56,7 @@ Main webpage for not logged in users is very simple. It tells us to log in or to
 
 Register webpage contains form with 2 section that allows users create new account. First section is responsible for creating User model, so you need pass there username, email and password. Second section contains fields for first and last name, profile description, avatar, etc. You can also choose if your name should be visible or if you want use only username.
 
-<img src="https://raw.githubusercontent.com/aFku/Django-Instodramat/master/readme_src/register.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/register.PNG" width="240" height="130">
 
 ## Login ('/profile/login/')
 
