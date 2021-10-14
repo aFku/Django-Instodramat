@@ -22,7 +22,7 @@ This is my second Django project. It took me a while to finish it, because of wo
 
 ## Environment variables
 
-**settings.py** uses some environment variables so you should fill them with your values. For this purpose I recommend write your own dockerfile and run this app as docker container. You can also replace variables with your values in settings.py
+**settings.py** uses some environment variables so you should fill them with your values. For this purpose I recommend write your own dockerfile (you can find example dockerfile in repository) and run this app as docker container. You can also replace variables with your values in settings.py
 
 SECRET_KEY - Secret key for app
 
@@ -35,6 +35,22 @@ EMAIL_HOST_USER - Username for email account
 EMAIL_HOST_PASSWORD - Password for email account
 
 ## Running app
+
+### Docker container
+
+I put example dockerfile inside repository. You can use it to deploy application.
+
+Just go to the directory where dockerfile is and run command:
+
+`docker build -t <image_tag> .`
+
+And then:
+
+`docker run -d -p 8080:8080 <image_tag>`
+
+The app will be available on port 8080 of your localhost.
+
+### Local
 
 It is recommended to create python virtual environment for this project. It could be done by executing command:
 
