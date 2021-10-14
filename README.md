@@ -66,7 +66,7 @@ Via Login webpage you can log in :D There is a form for your creds. You also can
 
 ## Password reset ('/profile/password_reset/')
 
-<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/reset_password.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/password_reset.PNG" width="240" height="130">
 
 ## Main webpage ('/') [authorized] [empty]
 
