@@ -84,7 +84,7 @@ If you follow some users and they have photos you should see them on main webpag
 
 Webpage contains form with only 2 fields that allow users upload file and add description.
 
-<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/add_photo.PNG" width="240" height="130">
+<img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/add_photo.PNG" width="240" height="130"> <img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/crop.PNG" width="240" height="130">
 
 ## Profile ('/profile/<int:pk>/')
 
