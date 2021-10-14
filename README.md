@@ -20,6 +20,16 @@ This is my second Django project. It took me a while to finish it, because of wo
 * Python: 3.9
 * Django: 3.2.8
 
+## Environment variables
+
+**settings.py** uses some environment variables so you should fill them with your values. For this purpose I recommend write your own dockerfile and run this app as docker container. You can also replace variables with your values in settings.py
+
+SECRET_KEY - Secret key for app
+EMAIL_HOST - SMTP host for email that send message with password reset instruction
+EMAIL_PORT - Email host port
+EMAIL_HOST_USER - Username for email account
+EMAIL_HOST_PASSWORD - Password for email account
+
 ## Running app
 
 It is recommended to create python virtual environment for this project. It could be done by executing command:
@@ -103,3 +113,8 @@ In your profile settings you are able to change password, email or other profile
 If you want to find new users to follow, or interesting photos you should go to community section. You can find there the newest photos from all users. There is also search bar where you can find any user.
 
 <img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/community.PNG" width="240" height="130"> <img src="https://github.com/aFku/Django-Instodramat/blob/main/readm_src/search.gif" width="240" height="130" />
+
+
+### Images used in readme
+
+I am not the owner of images from screens. These photos are art works from Witcher game series and Gothic game series. I used them only in presentation purpose.
